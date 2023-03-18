@@ -1,36 +1,28 @@
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import $ from 'jquery';
-import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const CompBoleta = () => {
-    const[p1, setP1] = useState();
-    const[p2, setP2] = useState();
-    const[p3, setP3] = useState();
-
-    const[f1, setF1] = useState();
-    const[f2, setF2] = useState();
-    const[f3, setF3] = useState();
-
-    const[m1, setM1] = useState();
-    const[m2, setM2] = useState();
-    const[m3, setM3] = useState();
 
     function calcular() {
-        const element1 = document.getElementById('promedio1');
-        element1.textContent = (Number(p1) + Number(p2) + Number(p3))/3;
+        let sc = 0;
+        let sg = 0;
 
-        const element2 = document.getElementById('promedio2');
-        element2.textContent = (Number(f1) + Number(f2) + Number(f3))/3;
+        for (let i = 1; i <= 9; i++) {
+            let elementv = document.getElementById('n'+i).value;
+            let elementl = document.getElementById('l'+i);
+            elementl.textContent = elementv;
+            sc += parseInt(elementv);
 
-        const element3 = document.getElementById('promedio3');
-        element3.textContent = (Number(m1) + Number(m2) + Number(m3))/3;
+            if (i%3 == 0) {
+                let elementp = document.getElementById('promedio' + parseInt(i/3));
+                elementp.textContent = (sc/3).toFixed(3);
+                sg += sc;
+                sc = 0;
+            }
+        }
 
-        const element4 = document.getElementById('pgen');
-        element4.textContent = (Number(p1) + Number(p2) + Number(p3) + Number(f1) + Number(f2) + Number(f3) + Number(m1) + Number(m2) + Number(m3))/9;
+        let elementg = document.getElementById('pgen');
+        elementg.textContent = (sg/9).toFixed(3);
     }
 
     return (
@@ -40,6 +32,9 @@ const CompBoleta = () => {
             </div>
 
             <h1>Boleta de calificaciones</h1>
+            <p>
+                Los valores se actualizan automáticamente al ajustar los rangos
+            </p>
             <br></br>
             <br></br>            
 
@@ -56,38 +51,80 @@ const CompBoleta = () => {
 
                 <tbody>
                     <tr>
-                       <th scope="row"> Programación </th>
-                       <td><input min="0" max="100" onChange={ (e) => setP1(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 1"></input></td>
-                       <td><input min="0" max="100" onChange={ (e) => setP2(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 2"></input></td>
-                       <td><input min="0" max="100" onChange={ (e) => setP3(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 3"></input></td>
-                       <td id="promedio1">NaN</td> 
+                        <th scope="row"> Programación </th>
+
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n1" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l1">0</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n2" defaultValue={0}  aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l2">0</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n3" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l3">0</span>
+                            </div>
+                        </td>
+                       <td id="promedio1">0.000</td> 
                     </tr>
 
                     <tr>
                        <th scope="row"> Física </th>
-                       <td><input min="0" max="100" onChange={ (e) => setF1(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 1"></input></td>
-                       <td><input min="0" max="100" onChange={ (e) => setF2(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 2"></input></td>
-                       <td><input min="0" max="100" onChange={ (e) => setF3(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 3"></input></td>
-                       <td id="promedio2">NaN</td> 
+                       <td>
+                            <div class="input-group mb-3">
+                                <input id="n4" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l4">0</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n5" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l5">0</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n6" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l6">0</span>
+                            </div>
+                        </td>
+                       <td id="promedio2">0.000</td> 
                     </tr>
 
                     <tr>
                        <th scope="row"> Matemática </th>
-                       <td><input min="0" max="100" onChange={ (e) => setM1(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 1"></input></td>
-                       <td><input min="0" max="100" onChange={ (e) => setM2(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 2"></input></td>
-                       <td><input min="0" max="100" onChange={ (e) => setM3(e.target.value) } type="number" class="form-control" placeholder="Ingrese la nota de la unidad 3"></input></td>
-                       <td id="promedio3">NaN</td> 
+                       <td>
+                            <div class="input-group mb-3">
+                                <input id="n7" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l7">0</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n8" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l8">0</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input id="n9" defaultValue={0} aria-describedby="basic-addon2" min="0" max="100" onChange={ (e) => calcular() } type="range" class="form-control"></input>
+                                <span class="input-group-text" id="l9">0</span>
+                            </div>
+                        </td>
+                       <td id="promedio3">0.000</td> 
                     </tr>
                 </tbody>
             </table>
 
             <div>
-                Promedio General <p id="pgen">NaN</p>
+                Promedio General <p id="pgen">0.000</p>
             </div>
-
-            <button onClick={ () => calcular() } type="button" class="btn btn-success">
-                Calcular promedios
-            </button>
         </>
     )
 }
